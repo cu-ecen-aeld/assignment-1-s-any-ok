@@ -1,20 +1,17 @@
-!/bin/bash
+#! /bin/bash
 
-writefile=$1
-writestr=$2
-
-if [ $# -ne 2 ]
+if [ "$#" -eq 1 ]
 then
-    echo "Pass two command line arguments."
-    exit 1
-fi
-
-
-
-echo $writestr > $writefile
-
-if [ $? -ne 0 ]
+	echo "need 2 parameters"
+	exit 1
+elif [ "$#" -eq 0 ]
 then
-    echo "$writestr could not be written to $writefile."
-    exit 1
+	echo "need 2 parameters"
+	exit 1
+else
+	F=$1
+	S=$2
+	mkdir -p $( dirname ${F})
+	echo ${S} > ${F}
+	exit 0
 fi

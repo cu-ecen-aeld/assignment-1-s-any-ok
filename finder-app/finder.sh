@@ -1,24 +1,19 @@
 #!/bin/bash
 
-if [$# -ne 2]
+if [ "$#" -eq 1 ]
 then
-    echo "Two command line arguments were not passed."
-    exit 1
+	echo "searchstr not exist"
+	exit 1
+elif [ "$#" -eq 0 ]
+then
+	echo "filesdir and searchstr not exist"
+elif [ ! -d "$1" ]
+then
+	echo "filesdir is not a directory"
+else
+	X=$(ls "$1" -1 | wc -l)
+	Y=$(grep -r "$2" "$1"/* | wc -l)
+	echo "The number of files are ${X} and the number of matching lines are ${Y}"
+	exit 0
 fi
 
-
-filesdir=$1
-searchstr=$2
-
-if [ ! -d "$filesdir" ]
-then
-    echo "$filesdir does not represent a directory on the filesystem."
-fi
-
-# X=$( ls -Rf $filesdir | wc -w )
-X=$( find $filesdir -type f | wc -l )
-
-Y=$( find $filesdir -type f -exec grep "$searchstr" {} \+ | wc -l)
-# Y=$( echo $X | grep "$searchstr" | wc -l )
-
-echo "The number of files are $X and the number of matching lines are $Y"
